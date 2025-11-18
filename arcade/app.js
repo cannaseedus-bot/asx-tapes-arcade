@@ -74,6 +74,12 @@ class ASXTapeArcade {
       });
     });
 
+    // AI Game Generator
+    document.getElementById('ai-generator-btn')?.addEventListener('click', () => this.launchAIGenerator());
+
+    // Doom Hellscape
+    document.getElementById('hellscape-btn')?.addEventListener('click', () => this.launchHellscape());
+
     document.getElementById('close-game-btn')?.addEventListener('click', () => this.closeGame());
   }
 
@@ -402,6 +408,141 @@ class ASXTapeArcade {
   closeGame() {
     document.getElementById('game-container').classList.add('hidden');
     this.logActivity('Closed game');
+  }
+
+  // AI Game Generator
+  launchAIGenerator() {
+    console.log('[ASX TAPE ARCADE] Launching AI Game Generator');
+    this.logActivity('Launched AI Game Generator');
+
+    const container = document.getElementById('game-container');
+    const title = document.getElementById('current-game-title');
+    const canvas = document.getElementById('game-canvas');
+
+    title.textContent = 'GAME GENERATOR AI';
+    container.classList.remove('hidden');
+
+    // Set canvas size
+    canvas.width = 800;
+    canvas.height = 600;
+
+    this.setStatusMessage('AI Game Generator initialized', 'success');
+
+    // Draw AI generator interface
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#1a0a0a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Gradient header
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, 100);
+    gradient.addColorStop(0, '#ff4444');
+    gradient.addColorStop(0.5, '#ff8833');
+    gradient.addColorStop(1, '#ffaa00');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, 100);
+
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 48px Courier New';
+    ctx.textAlign = 'center';
+    ctx.fillText('GAME GENERATOR AI', canvas.width / 2, 60);
+
+    ctx.fillStyle = '#f5e6e0';
+    ctx.font = '24px Courier New';
+    ctx.fillText('Describe your game concept:', canvas.width / 2, 180);
+    ctx.font = '16px Courier New';
+    ctx.fillStyle = '#c89898';
+    ctx.fillText('[AI will generate playable games from your prompt]', canvas.width / 2, 240);
+    ctx.fillText('[Support for 2D platformers, puzzles, and arcade games]', canvas.width / 2, 280);
+    ctx.fillText('[Generated games saved to your library]', canvas.width / 2, 320);
+
+    // Draw input field placeholder
+    ctx.fillStyle = 'rgba(255, 136, 51, 0.2)';
+    ctx.fillRect(50, 380, 700, 60);
+    ctx.strokeStyle = '#ff8833';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(50, 380, 700, 60);
+    ctx.fillStyle = '#c89898';
+    ctx.font = '18px Courier New';
+    ctx.textAlign = 'left';
+    ctx.fillText('Example: "A retro platformer with lava and bouncing mechanics"', 70, 415);
+  }
+
+  // Doom World Hellscape
+  launchHellscape() {
+    console.log('[ASX TAPE ARCADE] Launching Doom World Hellscape');
+    this.logActivity('Launched Doom World Hellscape');
+
+    const container = document.getElementById('game-container');
+    const title = document.getElementById('current-game-title');
+    const canvas = document.getElementById('game-canvas');
+
+    title.textContent = 'DOOM WORLD HELLSCAPE';
+    container.classList.remove('hidden');
+
+    // Set canvas size
+    canvas.width = 800;
+    canvas.height = 600;
+
+    this.setStatusMessage('Hell dimension loaded', 'success');
+
+    // Draw hellscape scene
+    const ctx = canvas.getContext('2d');
+
+    // Dark red background
+    ctx.fillStyle = '#1a0a0a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Animated hellfire background
+    const time = Date.now() / 1000;
+    for (let i = 0; i < 5; i++) {
+      const y = (canvas.height / 5) * i;
+      const gradient = ctx.createLinearGradient(0, y, canvas.width, y + canvas.height / 5);
+      const hue = (time + i * 0.2) % 1;
+      const intensity = 0.3 + 0.2 * Math.sin(time * 2 + i);
+      gradient.addColorStop(0, `rgba(255, 68, 68, ${intensity * 0.3})`);
+      gradient.addColorStop(0.5, `rgba(255, 136, 51, ${intensity * 0.4})`);
+      gradient.addColorStop(1, `rgba(26, 10, 10, ${intensity * 0.5})`);
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, y, canvas.width, canvas.height / 5);
+    }
+
+    // Title with hellfire effect
+    ctx.fillStyle = '#ffaa00';
+    ctx.shadowColor = '#ff4444';
+    ctx.shadowBlur = 30;
+    ctx.font = 'bold 56px Courier New';
+    ctx.textAlign = 'center';
+    ctx.fillText('DOOM WORLD', canvas.width / 2, 80);
+    ctx.fillText('HELLSCAPE', canvas.width / 2, 140);
+
+    ctx.shadowColor = 'rgba(255, 68, 68, 0.8)';
+    ctx.shadowBlur = 20;
+    ctx.fillStyle = '#ff4444';
+    ctx.font = 'bold 32px Courier New';
+    ctx.fillText('🔥 ANTHROPIC OFFICE PARTY EDITION 🔥', canvas.width / 2, 200);
+
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = '#f5e6e0';
+    ctx.font = '18px Courier New';
+    ctx.fillText('Navigate the procedurally generated hellscape', canvas.width / 2, 280);
+    ctx.fillText('Dodge demons, collect computational relics', canvas.width / 2, 320);
+    ctx.fillText('Ascend to the Cloud Dimension', canvas.width / 2, 360);
+
+    ctx.fillStyle = '#ff8833';
+    ctx.font = 'bold 20px Courier New';
+    ctx.fillText('[WASD to move] [SPACE to jump] [Click to interact]', canvas.width / 2, 450);
+
+    // Draw hellscape terrain hints
+    ctx.fillStyle = 'rgba(255, 68, 68, 0.2)';
+    for (let i = 0; i < 8; i++) {
+      const x = (canvas.width / 8) * i;
+      ctx.fillRect(x, canvas.height - 40 - Math.sin(time + i) * 5, canvas.width / 8, 40);
+    }
+
+    ctx.fillStyle = '#c89898';
+    ctx.font = '14px Courier New';
+    ctx.textAlign = 'center';
+    ctx.fillText('Press PLAY to enter the abyss...', canvas.width / 2, 560);
   }
 
   // System Updates

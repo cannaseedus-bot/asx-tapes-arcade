@@ -182,32 +182,49 @@ if ("serviceWorker" in navigator) {
       <h2>Arcade Games</h2>
 
       <div class="game-library">
-        <div class="game-card" data-game="space-invaders">
-          <div class="game-icon">👾</div>
-          <h3>Space Invaders</h3>
-          <p>Classic arcade shooter</p>
-          <button class="btn-play">Play</button>
+        <!-- Retro Emulator Sites -->
+        <div class="game-card" data-game="emularity">
+          <div class="game-icon">🕹️</div>
+          <h3>Emularity</h3>
+          <p>Play classic games in browser</p>
+          <a href="https://emularity.org" target="_blank" class="btn-play">Visit</a>
         </div>
 
-        <div class="game-card" data-game="asteroids">
-          <div class="game-icon">☄️</div>
-          <h3>Asteroids</h3>
-          <p>Retro space shooter</p>
-          <button class="btn-play">Play</button>
+        <div class="game-card" data-game="mame">
+          <div class="game-icon">⚡</div>
+          <h3>MAME Arcade</h3>
+          <p>Multi-Arcade Machine Emulator</p>
+          <a href="https://www.mamedev.org/" target="_blank" class="btn-play">Visit</a>
         </div>
 
-        <div class="game-card" data-game="snake">
-          <div class="game-icon">🐍</div>
-          <h3>Snake</h3>
-          <p>Classic snake game</p>
-          <button class="btn-play">Play</button>
+        <div class="game-card" data-game="archive-games">
+          <div class="game-icon">🏛️</div>
+          <h3>Internet Archive Games</h3>
+          <p>Thousands of preserved games</p>
+          <a href="https://archive.org/details/software" target="_blank" class="btn-play">Visit</a>
         </div>
 
-        <div class="game-card" data-game="tetris">
-          <div class="game-icon">🎮</div>
-          <h3>Tetris</h3>
-          <p>Falling blocks puzzle</p>
-          <button class="btn-play">Play</button>
+        <div class="game-card" data-game="dosbox">
+          <div class="game-icon">💾</div>
+          <h3>DOSBox</h3>
+          <p>Retro DOS games emulator</p>
+          <a href="https://www.dosbox.com/" target="_blank" class="btn-play">Visit</a>
+        </div>
+
+        <!-- Game Generator AI -->
+        <div class="game-card" data-game="game-generator-ai">
+          <div class="game-icon">🤖</div>
+          <h3>Game Generator AI</h3>
+          <p>Create games with AI prompts</p>
+          <button class="btn-play" id="ai-generator-btn">Generate</button>
+        </div>
+
+        <!-- Doom World Hellscape -->
+        <div class="game-card" data-game="doom-hellscape">
+          <div class="game-icon">🔥</div>
+          <h3>Doom World Hellscape</h3>
+          <p>Anthropic Office Party Edition</p>
+          <button class="btn-play" id="hellscape-btn">Enter Hell</button>
         </div>
       </div>
 
