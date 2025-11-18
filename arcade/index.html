@@ -5,6 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ASX TAPE ARCADE - PRIME OS</title>
   <link rel="stylesheet" href="style.css">
+
+  <!-- ASX TAPES ARCADE — PWA META BLOCK -->
+<meta name="theme-color" content="#0d0d0d" />
+<meta name="description" content="ASX TAPES ARCADE — Play browser-native ASX Tapes directly using the XJSON Runtime." />
+
+<link rel="apple-touch-icon" href="pwa/icon-192.png">
+<link rel="apple-touch-startup-image" href="pwa/splash-640x1136.png">
+
+<link rel="manifest" href="manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- PWA service worker -->
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js");
+  });
+}
+</script>
+
 </head>
 <body>
   <!-- PRIME OS HUD -->
