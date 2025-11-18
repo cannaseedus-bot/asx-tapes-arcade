@@ -1,0 +1,33 @@
+{
+  "name": "@xjson/asx-tapes-arcade",
+  "version": "0.1.0-alpha.0",
+  "description": "ASX TAPES ARCADE — Holotape-based game runtime using KLH → SCXQ2 → XJSON engine.",
+  "main": "index.js",
+  "type": "module",
+  "files": [
+    "index.js",
+    "arcade/",
+    "tapes/",
+    "klh/",
+    "kuhul/",
+    "scx/",
+    "xjson/",
+    "README.md"
+  ],
+  "keywords": [
+    "ASX",
+    "XJSON",
+    "SCXQ2",
+    "KLH",
+    "holotape",
+    "runtime",
+    "game-engine",
+    "tapes",
+    "asx-runtime"
+  ],
+  "author": "canna <canna.seed.us@gmail.com>",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASX TAPE ARCADE - PRIME OS</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- PRIME OS HUD -->
+  <div id="prime-hud">
+    <div class="hud-header">
+      <div class="hud-title">
+        <span class="glyph">⟁</span>
+        <h1>ASX TAPE ARCADE</h1>
+        <span class="subtitle">PRIME-04 Multi-Hive System</span>
+      </div>
+      <div class="hud-status">
+        <div class="status-item">
+          <span class="label">Hives:</span>
+          <span id="hive-count" class="value">0</span>
+        </div>
+        <div class="status-item">
+          <span class="label">Tapes:</span>
+          <span id="tape-count" class="value">0</span>
+        </div>
+        <div class="status-item">
+          <span class="label">Status:</span>
+          <span id="system-status" class="value status-online">ONLINE</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="hud-tabs">
+      <button class="tab active" data-panel="dashboard">Dashboard</button>
+      <button class="tab" data-panel="tapes">Tape Library</button>
+      <button class="tab" data-panel="hives">Hive Matrix</button>
+      <button class="tab" data-panel="scx">SCX Cipher</button>
+      <button class="tab" data-panel="kuhul">K'uhul Console</button>
+      <button class="tab" data-panel="games">Arcade Games</button>
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <div id="content-area">
+
+    <!-- Dashboard Panel -->
+    <div id="dashboard-panel" class="panel active">
+      <h2>System Dashboard</h2>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Hive Network</h3>
+          <div id="hive-matrix"></div>
+        </div>
+
+        <div class="card">
+          <h3>Active Tapes</h3>
+          <div id="active-tapes"></div>
+        </div>
+
+        <div class="card">
+          <h3>System Metrics</h3>
+          <div id="system-metrics"></div>
+        </div>
+
+        <div class="card">
+          <h3>Recent Activity</h3>
+          <div id="activity-log"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tape Library Panel -->
+    <div id="tapes-panel" class="panel">
+      <h2>Tape Library</h2>
+
+      <div class="toolbar">
+        <button id="load-tape-btn" class="btn-primary">Load Tape</button>
+        <button id="create-tape-btn" class="btn-secondary">Create New</button>
+        <input type="text" id="tape-search" placeholder="Search tapes...">
+      </div>
+
+      <div id="tape-list" class="tape-grid"></div>
+    </div>
+
+    <!-- Hive Matrix Panel -->
+    <div id="hives-panel" class="panel">
+      <h2>Hive Matrix</h2>
+
+      <div class="toolbar">
+        <button id="create-hive-btn" class="btn-primary">Create Hive</button>
+        <button id="refresh-hives-btn" class="btn-secondary">Refresh</button>
+      </div>
+
+      <div id="hive-list" class="hive-grid"></div>
+    </div>
+
+    <!-- SCX Cipher Panel -->
+    <div id="scx-panel" class="panel">
+      <h2>SCX Cipher Console</h2>
+
+      <div class="split-view">
+        <div class="left-pane">
+          <h3>K'uhul Code</h3>
+          <textarea id="kuhul-input" placeholder="Enter K'uhul code here..."></textarea>
+          <button id="encode-btn" class="btn-primary">Encode to SCX ⟁</button>
+        </div>
+
+        <div class="right-pane">
+          <h3>SCX Cipher</h3>
+          <textarea id="scx-output" placeholder="SCX cipher output..."></textarea>
+          <button id="decode-btn" class="btn-primary">Decode to K'uhul</button>
+        </div>
+      </div>
+
+      <div class="cipher-info">
+        <div class="info-item">
+          <span class="label">Original Size:</span>
+          <span id="original-size">0</span> bytes
+        </div>
+        <div class="info-item">
+          <span class="label">Compressed Size:</span>
+          <span id="compressed-size">0</span> bytes
+        </div>
+        <div class="info-item">
+          <span class="label">Compression Ratio:</span>
+          <span id="compression-ratio">0%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- K'uhul Console Panel -->
+    <div id="kuhul-panel" class="panel">
+      <h2>K'uhul Interactive Console</h2>
+
+      <div class="console-area">
+        <div class="editor">
+          <h3>Code Editor</h3>
+          <textarea id="kuhul-code" placeholder="Enter K'uhul code..."></textarea>
+          <button id="execute-kuhul-btn" class="btn-primary">Execute</button>
+          <button id="clear-kuhul-btn" class="btn-secondary">Clear</button>
+        </div>
+
+        <div class="output">
+          <h3>Output</h3>
+          <div id="kuhul-output" class="output-area"></div>
+        </div>
+
+        <div class="variables">
+          <h3>Variables</h3>
+          <div id="kuhul-variables" class="variable-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arcade Games Panel -->
+    <div id="games-panel" class="panel">
+      <h2>Arcade Games</h2>
+
+      <div class="game-library">
+        <div class="game-card" data-game="space-invaders">
+          <div class="game-icon">👾</div>
+          <h3>Space Invaders</h3>
+          <p>Classic arcade shooter</p>
+          <button class="btn-play">Play</button>
+        </div>
+
+        <div class="game-card" data-game="asteroids">
+          <div class="game-icon">☄️</div>
+          <h3>Asteroids</h3>
+          <p>Retro space shooter</p>
+          <button class="btn-play">Play</button>
+        </div>
+
+        <div class="game-card" data-game="snake">
+          <div class="game-icon">🐍</div>
+          <h3>Snake</h3>
+          <p>Classic snake game</p>
+          <button class="btn-play">Play</button>
+        </div>
+
+        <div class="game-card" data-game="tetris">
+          <div class="game-icon">🎮</div>
+          <h3>Tetris</h3>
+          <p>Falling blocks puzzle</p>
+          <button class="btn-play">Play</button>
+        </div>
+      </div>
+
+      <!-- Game Canvas -->
+      <div id="game-container" class="hidden">
+        <div class="game-header">
+          <h3 id="current-game-title"></h3>
+          <button id="close-game-btn" class="btn-close">✕</button>
+        </div>
+        <canvas id="game-canvas"></canvas>
+        <div class="game-controls">
+          <button id="pause-btn">Pause</button>
+          <button id="restart-btn">Restart</button>
+          <div class="score">
+            <span class="label">Score:</span>
+            <span id="game-score">0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Status Bar -->
+  <div id="status-bar">
+    <div class="status-left">
+      <span class="glyph">⟁</span>
+      <span id="current-hive">Hive: PRIME-04</span>
+    </div>
+    <div class="status-center">
+      <span id="status-message">System ready</span>
+    </div>
+    <div class="status-right">
+      <span id="time-display"></span>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../kuhul/interpreter.js"></script>
+  <script src="../scx/cipher.js"></script>
+  <script src="../xjson/runtime.js"></script>
+  <script src="../klh/orchestrator.js"></script>
+  <script src="../tapes/tape-system.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

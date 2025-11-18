@@ -1,0 +1,99 @@
+{
+  "id": "space-invaders-tape",
+  "name": "Space Invaders",
+  "version": "1.0.0",
+  "description": "Classic space invaders arcade game with K'uhul-powered AI",
+  "author": "ASX Team",
+
+  "brains": [
+    {
+      "id": "enemy-ai",
+      "type": "game-ai",
+      "ngrams": {},
+      "logic": {
+        "type": "logic",
+        "lang": "kuhul",
+        "code": [
+          "[Pop update_enemies]",
+          "  [Yax enemy_count]→[Wo 0]→[Sek gt]→[Ch'en has_enemies]",
+          "  [Yax enemy_speed]→[Wo 1]→[Sek add]→[Ch'en enemy_speed]",
+          "[Xul]"
+        ]
+      }
+    }
+  ],
+
+  "agents": [
+    {
+      "id": "game-logic-agent",
+      "type": "Mx2JS",
+      "script": "game-logic.js"
+    },
+    {
+      "id": "render-agent",
+      "type": "Mx2JS",
+      "script": "renderer.js"
+    }
+  ],
+
+  "routes": [
+    {
+      "path": "/game/space-invaders/start",
+      "handler": "startGame"
+    },
+    {
+      "path": "/game/space-invaders/update",
+      "handler": "updateGame"
+    },
+    {
+      "path": "/game/space-invaders/score",
+      "handler": "getScore"
+    }
+  ],
+
+  "db": {
+    "path": "tapes/space-invaders/db/asx-db.json",
+    "data": {
+      "highscores": [
+        { "player": "ASX", "score": 10000 },
+        { "player": "PRIME", "score": 8500 }
+      ],
+      "settings": {
+        "difficulty": "normal",
+        "sound": true,
+        "music": true
+      }
+    }
+  },
+
+  "state": {
+    "score": 0,
+    "lives": 3,
+    "level": 1,
+    "enemy_count": 55,
+    "enemy_speed": 1,
+    "player_x": 400,
+    "bullets": [],
+    "enemies": []
+  },
+
+  "flashRAM": {
+    "symbols": {
+      "@enemy": "👾",
+      "@player": "🚀",
+      "@bullet": "•"
+    },
+    "grams": {
+      "move_left": "[Yax player_x]→[Wo 5]→[Sek sub]→[Ch'en player_x]",
+      "move_right": "[Yax player_x]→[Wo 5]→[Sek add]→[Ch'en player_x]",
+      "fire_bullet": "[Wo 1]→[Ch'en bullet_fired]"
+    }
+  },
+
+  "ui": "/tapes/space-invaders/public/index.html",
+  "metadata": {
+    "category": "arcade",
+    "tags": ["shooter", "classic", "retro"],
+    "screenshot": "space-invaders.png"
+  }
+}
