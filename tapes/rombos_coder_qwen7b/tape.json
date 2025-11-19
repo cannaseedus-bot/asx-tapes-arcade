@@ -1,0 +1,63 @@
+{
+  "id": "rombos_coder_qwen7b",
+  "name": "Rombos Coder v2.5 (Qwen 7B Q4_K_M)",
+  "version": "1.0.0",
+  "description": "ASX-tape wrapper for rombos-coder-v2.5-qwen-7b-Q4_K_M.gguf running via local LLM backend (llama.cpp / Ollama).",
+  "author": "ASX Labs",
+
+  "entry": "/tapes/rombos_coder_qwen7b/public/index.html",
+
+  "routes": {
+    "api": "/tapes/rombos_coder_qwen7b/route.php",
+    "extras": ["/api/rombos/infer", "/api/rombos/status", "/api/rombos/config"]
+  },
+
+  "agents": "/tapes/rombos_coder_qwen7b/agents/agents.json",
+  "brains": "/tapes/rombos_coder_qwen7b/brains/nlp.json",
+  "db": "/tapes/rombos_coder_qwen7b/db/asx-db.json",
+  "logs": "/tapes/rombos_coder_qwen7b/logs/",
+
+  "metadata": {
+    "category": "ai",
+    "tags": ["llm", "coder", "qwen7b", "gguf", "code-review", "analysis"],
+    "icon": "💻",
+    "screenshot": "/tapes/rombos_coder_qwen7b/public/screenshot.png"
+  },
+
+  "runtime": {
+    "backend": "http",
+    "llm_endpoint": "http://127.0.0.1:11434/api/generate",
+    "llm_adapter": "ollama",
+    "llm_model": "rombos-coder-v2.5-qwen-7b-Q4_K_M",
+    "timeout_ms": 60000,
+    "context_length": 2048,
+    "temperature": 0.2,
+    "top_p": 0.9,
+    "max_tokens": 512
+  },
+
+  "ui": {
+    "theme": "asx-dark",
+    "icon": "💻",
+    "panels": ["chat", "code", "logs"],
+    "layout": "split-vertical"
+  },
+
+  "host": {
+    "visibility": "public",
+    "capabilities": ["ui", "api", "agents", "inference"],
+    "requires": ["php", "curl", "ollama"],
+    "permissions": {
+      "filesystem": "read-only",
+      "network": "localhost",
+      "shell": false
+    }
+  },
+
+  "integration": {
+    "tribunal": true,
+    "kuhul_hive": true,
+    "fractal_os": true,
+    "godmode_qlora": true
+  }
+}

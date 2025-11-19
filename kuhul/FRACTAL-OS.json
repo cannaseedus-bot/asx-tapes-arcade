@@ -1,0 +1,365 @@
+{
+  "version": "1.0.0",
+  "description": "FRACTAL-OS device profiling and K'UHUL scheduler configuration for ASX Tapes Arcade",
+
+  "device_profiles": {
+    "low_end_laptop": {
+      "id": "low-end-laptop",
+      "description": "8GB RAM, integrated GPU, suitable for lightweight models",
+      "cpu": {
+        "id": "cpu-main",
+        "cores": 8,
+        "threads": 16,
+        "base_ghz": 2.4,
+        "boost_ghz": 4.2,
+        "score": 1.0,
+        "vendor": "amd/intel"
+      },
+      "gpu": {
+        "id": "igpu-0",
+        "type": "integrated",
+        "vendor": "intel/amd",
+        "vram_mb": 512,
+        "score": 0.3,
+        "supports_webgpu": true
+      },
+      "memory_mb": 16000,
+      "storage": {
+        "type": "ssd",
+        "mb": 256000,
+        "read_mbps": 3500,
+        "write_mbps": 3000
+      },
+      "network": {
+        "type": "wifi",
+        "mbps": 300
+      }
+    },
+
+    "mid_range_desktop": {
+      "id": "mid-range-desktop",
+      "description": "16GB RAM, dedicated GPU, good for Q4/Q8 models",
+      "cpu": {
+        "id": "cpu-main",
+        "cores": 12,
+        "threads": 24,
+        "base_ghz": 3.6,
+        "boost_ghz": 5.0,
+        "score": 1.5
+      },
+      "gpu": {
+        "id": "dgpu-0",
+        "type": "dedicated",
+        "vendor": "nvidia",
+        "model": "RTX 3060",
+        "vram_mb": 12288,
+        "cuda_cores": 3584,
+        "score": 0.7,
+        "supports_webgpu": true,
+        "supports_cuda": true
+      },
+      "memory_mb": 16384,
+      "storage": {
+        "type": "nvme",
+        "mb": 1000000,
+        "read_mbps": 7000,
+        "write_mbps": 5000
+      }
+    },
+
+    "high_end_workstation": {
+      "id": "high-end-workstation",
+      "description": "32GB+ RAM, high-end GPU, handles all models",
+      "cpu": {
+        "id": "cpu-main",
+        "cores": 16,
+        "threads": 32,
+        "base_ghz": 3.8,
+        "boost_ghz": 5.4,
+        "score": 2.0
+      },
+      "gpu": {
+        "id": "dgpu-0",
+        "type": "dedicated",
+        "vendor": "nvidia",
+        "model": "RTX 4090",
+        "vram_mb": 24576,
+        "cuda_cores": 16384,
+        "score": 1.0,
+        "supports_webgpu": true,
+        "supports_cuda": true
+      },
+      "memory_mb": 32768,
+      "storage": {
+        "type": "nvme",
+        "mb": 2000000,
+        "read_mbps": 7400,
+        "write_mbps": 6800
+      }
+    }
+  },
+
+  "shards": {
+    "llm_rombos_coder_qwen7b": {
+      "id": "rombos_coder_qwen7b",
+      "type": "llm",
+      "model_file": "rombos-coder-v2.5-qwen-7b-Q4_K_M.gguf",
+      "engine": "llama.cpp",
+      "backend": "ollama",
+      "endpoint": "http://127.0.0.1:11434/api/generate",
+
+      "requirements": {
+        "min_ram_mb": 8000,
+        "recommended_ram_mb": 12000,
+        "min_vram_mb": 0,
+        "recommended_vram_mb": 4096,
+        "disk_mb": 4096
+      },
+
+      "preferred_device": "cpu-main",
+      "fallback_device": "igpu-0",
+      "priority": 0.9,
+
+      "tags": ["code", "analysis", "completion", "review"],
+
+      "performance": {
+        "tokens_per_second_cpu": 15,
+        "tokens_per_second_gpu": 50,
+        "latency_ms_typical": 2000
+      }
+    },
+
+    "llm_rombos_coder_qwen7b_q8": {
+      "id": "rombos_coder_qwen7b_q8",
+      "type": "llm",
+      "model_file": "rombos-coder-v2.5-qwen-7b-q8_0.gguf",
+      "engine": "llama.cpp",
+      "backend": "ollama",
+      "endpoint": "http://127.0.0.1:11434/api/generate",
+
+      "requirements": {
+        "min_ram_mb": 12000,
+        "recommended_ram_mb": 16000,
+        "min_vram_mb": 0,
+        "recommended_vram_mb": 8192,
+        "disk_mb": 7168
+      },
+
+      "preferred_device": "dgpu-0",
+      "fallback_device": "cpu-main",
+      "priority": 0.95,
+
+      "tags": ["code", "analysis", "completion", "review", "high-quality"],
+
+      "performance": {
+        "tokens_per_second_cpu": 8,
+        "tokens_per_second_gpu": 35,
+        "latency_ms_typical": 3000
+      }
+    },
+
+    "llm_janus": {
+      "id": "janus",
+      "type": "llm",
+      "model_file": "janus-7b.gguf",
+      "engine": "ollama",
+      "endpoint": "http://127.0.0.1:11434/api/generate",
+
+      "requirements": {
+        "min_ram_mb": 4000,
+        "recommended_ram_mb": 6000,
+        "disk_mb": 2048
+      },
+
+      "preferred_device": "cpu-main",
+      "priority": 0.85,
+      "tags": ["fast", "lightweight", "eval"]
+    },
+
+    "llm_micronauts": {
+      "id": "micronauts",
+      "type": "llm",
+      "model_file": "micronauts-1b.gguf",
+      "engine": "ollama",
+      "endpoint": "http://127.0.0.1:11434/api/generate",
+
+      "requirements": {
+        "min_ram_mb": 2000,
+        "recommended_ram_mb": 4000,
+        "disk_mb": 1024
+      },
+
+      "preferred_device": "cpu-main",
+      "priority": 0.8,
+      "tags": ["ultra-lightweight", "fast", "analysis"]
+    },
+
+    "webgpu_rombos_coder_qwen7b": {
+      "id": "rombos_coder_qwen7b_webgpu",
+      "type": "llm",
+      "backend": "webllm",
+      "manifest": "/models/rombos-webgpu/model.json",
+      "weights_pattern": "/models/rombos-webgpu/weights/*.bin",
+
+      "requirements": {
+        "webgpu_support": true,
+        "min_vram_mb": 4096,
+        "browser": ["chrome", "edge"]
+      },
+
+      "max_seq_len": 2048,
+      "kv_cache_mb": 1024,
+      "preferred_device": "igpu-0",
+      "priority": 0.7,
+
+      "tags": ["webgpu", "browser", "code"]
+    }
+  },
+
+  "scheduler": {
+    "version": "1.0.0",
+    "description": "K'UHUL intelligent workload scheduler",
+
+    "policies": {
+      "llm_infer": {
+        "strategy": "cpu_then_igpu",
+        "description": "Try CPU first, fall back to iGPU if CPU busy",
+        "cpu_threshold_load": 0.75,
+        "igpu_max_jobs": 1,
+        "dgpu_max_jobs": 4,
+        "selection": "min-estimated-latency",
+
+        "rules": [
+          {
+            "condition": "cpu_load < 0.75 AND device_profile == 'low_end_laptop'",
+            "action": "route_to_cpu",
+            "reason": "CPU available and suitable for GGUF"
+          },
+          {
+            "condition": "cpu_load >= 0.75 AND webgpu_available",
+            "action": "route_to_webgpu",
+            "reason": "CPU busy, offload to WebGPU"
+          },
+          {
+            "condition": "dgpu_available AND task_priority > 0.9",
+            "action": "route_to_dgpu",
+            "reason": "High priority task, use dedicated GPU"
+          }
+        ]
+      },
+
+      "tribunal_eval": {
+        "strategy": "parallel_judges",
+        "description": "Run multiple judges in parallel",
+        "max_parallel": 3,
+        "timeout_ms": 60000,
+
+        "rules": [
+          {
+            "condition": "judges == 3 AND all_lightweight",
+            "action": "all_cpu_parallel",
+            "reason": "3 lightweight judges can run on CPU cores"
+          },
+          {
+            "condition": "judges > 3 OR has_heavy_model",
+            "action": "cpu_gpu_split",
+            "reason": "Distribute across CPU and GPU"
+          }
+        ]
+      },
+
+      "training": {
+        "strategy": "gpu_required",
+        "description": "Training always uses GPU if available",
+        "prefer_dgpu": true,
+        "min_vram_mb": 8192,
+
+        "rules": [
+          {
+            "condition": "dgpu_available AND vram >= 8GB",
+            "action": "use_dgpu",
+            "reason": "Training on dedicated GPU"
+          },
+          {
+            "condition": "dgpu_unavailable",
+            "action": "fallback_cpu_qlora",
+            "reason": "Use CPU with QLoRA for memory efficiency"
+          }
+        ]
+      }
+    },
+
+    "routes": {
+      "rombos_coder_qwen7b": {
+        "shard": "llm_rombos_coder_qwen7b",
+        "policy": "llm_infer",
+        "fallback": "llm_janus"
+      },
+
+      "rombos_coder_qwen7b_q8": {
+        "shard": "llm_rombos_coder_qwen7b_q8",
+        "policy": "llm_infer",
+        "fallback": "llm_rombos_coder_qwen7b"
+      },
+
+      "janus": {
+        "shard": "llm_janus",
+        "policy": "llm_infer"
+      },
+
+      "micronauts": {
+        "shard": "llm_micronauts",
+        "policy": "llm_infer"
+      },
+
+      "tribunal": {
+        "shards": ["llm_rombos_coder_qwen7b", "llm_janus", "llm_micronauts"],
+        "policy": "tribunal_eval"
+      },
+
+      "webgpu_rombos": {
+        "shard": "webgpu_rombos_coder_qwen7b",
+        "policy": "llm_infer"
+      }
+    },
+
+    "monitoring": {
+      "enabled": true,
+      "metrics": [
+        "cpu_utilization",
+        "gpu_utilization",
+        "memory_usage",
+        "vram_usage",
+        "queue_depth",
+        "avg_latency",
+        "tokens_per_second"
+      ],
+      "log_path": "/kuhul/logs/scheduler.log",
+      "dashboard_port": 8080
+    }
+  },
+
+  "optimization": {
+    "auto_scaling": {
+      "enabled": true,
+      "min_instances": 1,
+      "max_instances": 3,
+      "scale_up_threshold": 0.8,
+      "scale_down_threshold": 0.2,
+      "cooldown_seconds": 300
+    },
+
+    "caching": {
+      "enabled": true,
+      "kv_cache_mb": 2048,
+      "prompt_cache_enabled": true,
+      "max_cache_entries": 1000
+    },
+
+    "batching": {
+      "enabled": true,
+      "max_batch_size": 4,
+      "batch_timeout_ms": 100
+    }
+  }
+}
