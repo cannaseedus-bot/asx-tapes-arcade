@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASX HOLO UI Standard</title>
+  <style>
+    /**
+     * ASX HOLO UI Standard
+     * The canonical visual language for all ASX tapes
+     *
+     * Theme: Green Phosphor CRT
+     * Aesthetic: Retro-futuristic terminal
+     * Inspiration: Fallout, Alien, NeXTSTEP
+     */
+
+    /* ========== CORE VARIABLES ========== */
+    :root {
+      /* Colors */
+      --holo-bg-primary: #0a0a0a;
+      --holo-bg-secondary: #141414;
+      --holo-bg-tertiary: #1e1e1e;
+
+      --holo-fg-primary: #00ff88;
+      --holo-fg-secondary: #00cc66;
+      --holo-fg-tertiary: #009944;
+      --holo-fg-muted: #666;
+
+      --holo-accent-cyan: #00ffe1;
+      --holo-accent-blue: #00ccff;
+      --holo-accent-danger: #ff0066;
+      --holo-accent-warning: #ffaa00;
+      --holo-accent-success: #00ff88;
+
+      /* Effects */
+      --holo-glow: 0 0 10px rgba(0, 255, 136, 0.5);
+      --holo-glow-strong: 0 0 20px rgba(0, 255, 136, 0.8);
+      --holo-shadow: 0 4px 20px rgba(0, 255, 136, 0.2);
+
+      /* Typography */
+      --holo-font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+      --holo-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+      /* Spacing */
+      --holo-space-xs: 4px;
+      --holo-space-sm: 8px;
+      --holo-space-md: 16px;
+      --holo-space-lg: 24px;
+      --holo-space-xl: 32px;
+
+      /* Border */
+      --holo-border: 2px solid var(--holo-fg-primary);
+      --holo-border-thin: 1px solid var(--holo-fg-primary);
+      --holo-radius: 4px;
+    }
+
+    /* ========== RESET & BASE ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--holo-font-mono);
+      background: var(--holo-bg-primary);
+      color: var(--holo-fg-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ========== SCANLINES EFFECT ========== */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%,
+        rgba(0, 0, 0, 0.25) 50%
+      );
+      background-size: 100% 4px;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.3;
+    }
+
+    /* CRT FLICKER */
+    @keyframes flicker {
+      0% { opacity: 0.98; }
+      5% { opacity: 1; }
+      10% { opacity: 0.98; }
+      15% { opacity: 1; }
+      20% { opacity: 0.98; }
+      100% { opacity: 1; }
+    }
+
+    body {
+      animation: flicker 0.15s infinite;
+    }
+
+    /* ========== LAYOUT ========== */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: var(--holo-space-xl);
+    }
+
+    .section {
+      margin-bottom: var(--holo-space-xl);
+    }
+
+    /* ========== TYPOGRAPHY ========== */
+    h1, h2, h3, h4 {
+      color: var(--holo-fg-primary);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: var(--holo-space-md);
+      text-shadow: var(--holo-glow);
+    }
+
+    h1 {
+      font-size: 36px;
+      border-bottom: var(--holo-border);
+      padding-bottom: var(--holo-space-md);
+    }
+
+    h2 {
+      font-size: 24px;
+      border-left: 4px solid var(--holo-fg-primary);
+      padding-left: var(--holo-space-md);
+    }
+
+    h3 {
+      font-size: 18px;
+      color: var(--holo-accent-cyan);
+    }
+
+    p {
+      color: var(--holo-fg-secondary);
+      margin-bottom: var(--holo-space-md);
+    }
+
+    code {
+      background: var(--holo-bg-tertiary);
+      color: var(--holo-accent-cyan);
+      padding: 2px 6px;
+      border-radius: var(--holo-radius);
+      font-family: var(--holo-font-mono);
+      font-size: 14px;
+    }
+
+    /* ========== HOLO CARD ========== */
+    .holo-card {
+      background: var(--holo-bg-secondary);
+      border: var(--holo-border);
+      border-radius: var(--holo-radius);
+      padding: var(--holo-space-lg);
+      box-shadow: var(--holo-shadow);
+      transition: all 0.3s ease;
+    }
+
+    .holo-card:hover {
+      border-color: var(--holo-accent-cyan);
+      box-shadow: var(--holo-glow-strong);
+      transform: translateY(-2px);
+    }
+
+    .holo-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--holo-space-md);
+      padding-bottom: var(--holo-space-sm);
+      border-bottom: var(--holo-border-thin);
+    }
+
+    .holo-card-title {
+      font-size: 18px;
+      color: var(--holo-fg-primary);
+      margin: 0;
+    }
+
+    .holo-card-badge {
+      background: var(--holo-bg-tertiary);
+      color: var(--holo-accent-cyan);
+      padding: 4px 12px;
+      border-radius: var(--holo-radius);
+      font-size: 12px;
+      border: 1px solid var(--holo-accent-cyan);
+    }
+
+    /* ========== HOLO GRID ========== */
+    .holo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--holo-space-lg);
+    }
+
+    .holo-grid-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .holo-grid-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    /* ========== BUTTONS ========== */
+    .holo-btn {
+      background: transparent;
+      color: var(--holo-fg-primary);
+      border: var(--holo-border);
+      padding: 12px 24px;
+      font-family: var(--holo-font-mono);
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      border-radius: var(--holo-radius);
+      transition: all 0.3s ease;
+    }
+
+    .holo-btn:hover {
+      background: var(--holo-fg-primary);
+      color: var(--holo-bg-primary);
+      box-shadow: var(--holo-glow-strong);
+      transform: translateY(-2px);
+    }
+
+    .holo-btn-primary {
+      background: var(--holo-fg-primary);
+      color: var(--holo-bg-primary);
+      border-color: var(--holo-fg-primary);
+    }
+
+    .holo-btn-primary:hover {
+      background: var(--holo-accent-cyan);
+      border-color: var(--holo-accent-cyan);
+    }
+
+    .holo-btn-danger {
+      border-color: var(--holo-accent-danger);
+      color: var(--holo-accent-danger);
+    }
+
+    .holo-btn-danger:hover {
+      background: var(--holo-accent-danger);
+      color: var(--holo-bg-primary);
+    }
+
+    /* ========== INPUTS ========== */
+    .holo-input {
+      width: 100%;
+      background: var(--holo-bg-tertiary);
+      color: var(--holo-fg-primary);
+      border: var(--holo-border-thin);
+      padding: 12px 16px;
+      font-family: var(--holo-font-mono);
+      font-size: 14px;
+      border-radius: var(--holo-radius);
+      transition: all 0.3s ease;
+    }
+
+    .holo-input:focus {
+      outline: none;
+      border-color: var(--holo-accent-cyan);
+      box-shadow: var(--holo-glow);
+    }
+
+    .holo-input::placeholder {
+      color: var(--holo-fg-muted);
+    }
+
+    /* ========== TAPE CARD ========== */
+    .tape-card {
+      background: var(--holo-bg-secondary);
+      border: var(--holo-border);
+      border-radius: var(--holo-radius);
+      padding: var(--holo-space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--holo-space-md);
+      transition: all 0.3s ease;
+    }
+
+    .tape-card:hover {
+      border-color: var(--holo-accent-cyan);
+      box-shadow: var(--holo-glow-strong);
+      transform: translateY(-4px);
+    }
+
+    .tape-icon {
+      font-size: 48px;
+      text-align: center;
+      filter: drop-shadow(var(--holo-glow));
+    }
+
+    .tape-name {
+      font-size: 20px;
+      text-align: center;
+      color: var(--holo-fg-primary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .tape-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--holo-fg-muted);
+    }
+
+    .tape-stats {
+      display: flex;
+      justify-content: space-around;
+      padding: var(--holo-space-sm) 0;
+      border-top: var(--holo-border-thin);
+      border-bottom: var(--holo-border-thin);
+      font-size: 12px;
+      color: var(--holo-fg-secondary);
+    }
+
+    .tape-tags {
+      display: flex;
+      gap: var(--holo-space-sm);
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      background: var(--holo-bg-tertiary);
+      color: var(--holo-accent-cyan);
+      padding: 4px 8px;
+      border-radius: var(--holo-radius);
+      font-size: 11px;
+      border: 1px solid var(--holo-accent-cyan);
+    }
+
+    /* ========== STATUS BAR ========== */
+    .status-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--holo-bg-secondary);
+      border-top: var(--holo-border);
+      padding: var(--holo-space-sm) var(--holo-space-lg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      z-index: 1000;
+    }
+
+    .status-indicator {
+      display: flex;
+      gap: var(--holo-space-md);
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--holo-accent-success);
+      box-shadow: var(--holo-glow);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* ========== TERMINAL ========== */
+    .holo-terminal {
+      background: var(--holo-bg-primary);
+      border: var(--holo-border);
+      border-radius: var(--holo-radius);
+      padding: var(--holo-space-lg);
+      font-family: var(--holo-font-mono);
+      font-size: 14px;
+      line-height: 1.8;
+      overflow-x: auto;
+    }
+
+    .terminal-line {
+      display: flex;
+      gap: var(--holo-space-sm);
+    }
+
+    .terminal-prompt {
+      color: var(--holo-accent-cyan);
+    }
+
+    .terminal-output {
+      color: var(--holo-fg-secondary);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 768px) {
+      .holo-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .holo-grid-2,
+      .holo-grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .container {
+        padding: var(--holo-space-md);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Header -->
+    <section class="section">
+      <h1>⟁ ASX HOLO UI STANDARD</h1>
+      <p>The canonical visual language for all ASX tapes. Green phosphor CRT aesthetic inspired by Fallout, Alien, and NeXTSTEP terminals.</p>
+    </section>
+
+    <!-- Colors -->
+    <section class="section">
+      <h2>Color Palette</h2>
+      <div class="holo-grid holo-grid-3">
+        <div class="holo-card">
+          <h3>Primary</h3>
+          <div style="background: var(--holo-fg-primary); height: 60px; border-radius: 4px; margin-bottom: 8px;"></div>
+          <code>#00ff88</code>
+        </div>
+        <div class="holo-card">
+          <h3>Accent Cyan</h3>
+          <div style="background: var(--holo-accent-cyan); height: 60px; border-radius: 4px; margin-bottom: 8px;"></div>
+          <code>#00ffe1</code>
+        </div>
+        <div class="holo-card">
+          <h3>Background</h3>
+          <div style="background: var(--holo-bg-primary); height: 60px; border-radius: 4px; margin-bottom: 8px; border: 1px solid var(--holo-fg-primary);"></div>
+          <code>#0a0a0a</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- Typography -->
+    <section class="section">
+      <h2>Typography</h2>
+      <div class="holo-card">
+        <h1 style="border: none; padding: 0;">Heading 1</h1>
+        <h2 style="border: none; padding: 0;">Heading 2</h2>
+        <h3>Heading 3</h3>
+        <p>This is body text in the HOLO UI standard. It uses monospace fonts with slight green tint for that authentic terminal feel.</p>
+        <p><code>inline code example</code> with cyan highlighting.</p>
+      </div>
+    </section>
+
+    <!-- Buttons -->
+    <section class="section">
+      <h2>Buttons</h2>
+      <div class="holo-card">
+        <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+          <button class="holo-btn">Default</button>
+          <button class="holo-btn holo-btn-primary">Primary</button>
+          <button class="holo-btn holo-btn-danger">Danger</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Inputs -->
+    <section class="section">
+      <h2>Form Inputs</h2>
+      <div class="holo-card">
+        <input type="text" class="holo-input" placeholder="Enter text...">
+      </div>
+    </section>
+
+    <!-- Tape Cards -->
+    <section class="section">
+      <h2>Tape Cards</h2>
+      <div class="holo-grid">
+
+        <div class="tape-card">
+          <div class="tape-icon">🎮</div>
+          <h3 class="tape-name">Space Invaders</h3>
+          <div class="tape-meta">
+            <span>by ASX Labs</span>
+            <span>v1.0</span>
+          </div>
+          <div class="tape-stats">
+            <span>3 frames</span>
+            <span>0 loads</span>
+          </div>
+          <div class="tape-tags">
+            <span class="tag">#game</span>
+            <span class="tag">#arcade</span>
+            <span class="tag">#2d</span>
+          </div>
+          <button class="holo-btn holo-btn-primary">LOAD</button>
+        </div>
+
+        <div class="tape-card">
+          <div class="tape-icon">🤖</div>
+          <h3 class="tape-name">Cline DevOps</h3>
+          <div class="tape-meta">
+            <span>by ASX Labs</span>
+            <span>v9.0</span>
+          </div>
+          <div class="tape-stats">
+            <span>12 agents</span>
+            <span>45 loads</span>
+          </div>
+          <div class="tape-tags">
+            <span class="tag">#ai</span>
+            <span class="tag">#automation</span>
+            <span class="tag">#devops</span>
+          </div>
+          <button class="holo-btn holo-btn-primary">LOAD</button>
+        </div>
+
+        <div class="tape-card">
+          <div class="tape-icon">🧠</div>
+          <h3 class="tape-name">AI Trainer</h3>
+          <div class="tape-meta">
+            <span>by ASX Labs</span>
+            <span>v2.5</span>
+          </div>
+          <div class="tape-stats">
+            <span>5 models</span>
+            <span>128 loads</span>
+          </div>
+          <div class="tape-tags">
+            <span class="tag">#ai</span>
+            <span class="tag">#training</span>
+            <span class="tag">#ml</span>
+          </div>
+          <button class="holo-btn holo-btn-primary">LOAD</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Terminal -->
+    <section class="section">
+      <h2>Terminal</h2>
+      <div class="holo-terminal">
+        <div class="terminal-line">
+          <span class="terminal-prompt">⟁</span>
+          <span class="terminal-output">System initialized...</span>
+        </div>
+        <div class="terminal-line">
+          <span class="terminal-prompt">⟁</span>
+          <span class="terminal-output">Loading tapes...</span>
+        </div>
+        <div class="terminal-line">
+          <span class="terminal-prompt">⟁</span>
+          <span class="terminal-output">Found 12 tapes</span>
+        </div>
+        <div class="terminal-line">
+          <span class="terminal-prompt">⟁</span>
+          <span class="terminal-output">Host ready</span>
+        </div>
+        <div class="terminal-line">
+          <span class="terminal-prompt">$</span>
+          <span class="terminal-output">_</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Layout Grid -->
+    <section class="section">
+      <h2>Layout Examples</h2>
+      <div class="holo-grid holo-grid-2">
+        <div class="holo-card">
+          <div class="holo-card-header">
+            <h3 class="holo-card-title">System Metrics</h3>
+            <span class="holo-card-badge">ONLINE</span>
+          </div>
+          <p>Tapes Mounted: <span style="color: var(--holo-accent-cyan)">12</span></p>
+          <p>Active Agents: <span style="color: var(--holo-accent-cyan)">8</span></p>
+          <p>Uptime: <span style="color: var(--holo-accent-cyan)">48h 12m</span></p>
+        </div>
+
+        <div class="holo-card">
+          <div class="holo-card-header">
+            <h3 class="holo-card-title">Recent Activity</h3>
+            <span class="holo-card-badge">LIVE</span>
+          </div>
+          <p style="font-size: 12px; margin-bottom: 8px;">12:34:56 - Tape loaded: cline_v9</p>
+          <p style="font-size: 12px; margin-bottom: 8px;">12:33:21 - Agent executed: train</p>
+          <p style="font-size: 12px; margin-bottom: 8px;">12:32:45 - Host boot complete</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <div class="status-indicator">
+      <span class="status-dot"></span>
+      <span>GHOST v1.0</span>
+    </div>
+    <div class="status-indicator">
+      <span>TAPES: 12</span>
+      <span>AGENTS: 8</span>
+      <span>CPU: 17%</span>
+    </div>
+    <div class="status-indicator">
+      <span>STATUS: ONLINE</span>
+    </div>
+  </div>
+
+</body>
+</html>
