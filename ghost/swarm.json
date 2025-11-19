@@ -1,0 +1,65 @@
+{
+  "version": "1.0",
+  "agents": {
+    "cline": {
+      "type": "external",
+      "url": "http://127.0.0.1:9999/run",
+      "skills": [
+        "code_generation",
+        "debugging",
+        "refactoring",
+        "git_operations",
+        "build",
+        "deploy",
+        "ops",
+        "actions"
+      ],
+      "priority": 10,
+      "status": "online"
+    },
+    "qwen": {
+      "type": "external",
+      "url": "http://127.0.0.1:5001/chat",
+      "skills": [
+        "fast",
+        "code",
+        "eval",
+        "judge",
+        "grade",
+        "quick_reasoning"
+      ],
+      "priority": 8,
+      "status": "online"
+    },
+    "mx2lm": {
+      "type": "external",
+      "url": "http://127.0.0.1:9988/infer",
+      "skills": [
+        "reasoning",
+        "longform",
+        "analysis",
+        "general",
+        "complex_tasks"
+      ],
+      "priority": 7,
+      "status": "online"
+    },
+    "ollama": {
+      "type": "external",
+      "url": "http://127.0.0.1:11434/api/chat",
+      "skills": [
+        "chat",
+        "general",
+        "casual"
+      ],
+      "priority": 5,
+      "status": "online"
+    }
+  },
+  "router": {
+    "strategy": "skill_match_first",
+    "fallback": "mx2lm",
+    "timeout": 30,
+    "retry": 2
+  }
+}
