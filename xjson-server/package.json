@@ -1,0 +1,29 @@
+{
+  "name": "asx-xjson-server",
+  "version": "1.0.0",
+  "description": "XJSON Server for ASX Tapes Arcade - THE PRIMARY BACKEND",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "asx-server": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2",
+    "fs-extra": "^11.2.0"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "asx",
+    "xjson",
+    "micronaut",
+    "kuhul",
+    "ghost",
+    "tapes"
+  ],
+  "author": "ASX Labs",
+  "license": "MIT"
+}
