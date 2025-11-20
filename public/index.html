@@ -1,1 +1,448 @@
-<h1>Hello ASX</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASX Tapes Arcade - Complete System</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Courier New', monospace;
+      background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+      color: #00ff88;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 3rem;
+      text-align: center;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 20px #00ff88;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #00ccff;
+      margin-bottom: 2rem;
+      font-size: 1.2rem;
+    }
+
+    .status-panel {
+      background: rgba(0, 255, 136, 0.1);
+      border: 2px solid #00ff88;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .status-item {
+      background: rgba(0, 204, 255, 0.1);
+      padding: 15px;
+      border-radius: 5px;
+      border: 1px solid #00ccff;
+    }
+
+    .status-label {
+      color: #00ccff;
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+
+    .status-value {
+      color: #00ff88;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .demo-section {
+      margin: 30px 0;
+    }
+
+    .demo-section h2 {
+      color: #00ccff;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+
+    .demo-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    button {
+      background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+      color: #0a0e27;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      font-family: 'Courier New', monospace;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 255, 136, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .output {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid #00ff88;
+      border-radius: 5px;
+      padding: 15px;
+      margin-top: 15px;
+      max-height: 400px;
+      overflow-y: auto;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .output pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .loader {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(0, 255, 136, 0.3);
+      border-radius: 50%;
+      border-top-color: #00ff88;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .success { color: #00ff88; }
+    .error { color: #ff0066; }
+    .info { color: #00ccff; }
+    .warning { color: #ffaa00; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>⟁ ASX TAPES ARCADE</h1>
+    <p class="subtitle">Complete Backend-Agnostic System | No PHP Required | Browser-Only Fallback</p>
+
+    <!-- Status Panel -->
+    <div class="status-panel">
+      <h2>System Status</h2>
+      <div class="status-grid" id="status-grid">
+        <div class="status-item">
+          <div class="status-label">Runtime Mode</div>
+          <div class="status-value" id="runtime-mode">Initializing...</div>
+        </div>
+        <div class="status-item">
+          <div class="status-label">Backend</div>
+          <div class="status-value" id="backend-name">Detecting...</div>
+        </div>
+        <div class="status-item">
+          <div class="status-label">Tapes Loaded</div>
+          <div class="status-value" id="tapes-count">0</div>
+        </div>
+        <div class="status-item">
+          <div class="status-label">Sessions</div>
+          <div class="status-value" id="sessions-count">0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo: Basic Operations -->
+    <div class="demo-section">
+      <h2>🔥 Basic Operations</h2>
+      <div class="demo-buttons">
+        <button onclick="demo.ping()">Ping</button>
+        <button onclick="demo.info()">Get Info</button>
+        <button onclick="demo.discoverTapes()">Discover Tapes</button>
+        <button onclick="demo.getStatus()">System Status</button>
+      </div>
+      <div class="output" id="output-basic"></div>
+    </div>
+
+    <!-- Demo: Storage -->
+    <div class="demo-section">
+      <h2>💾 Storage Operations</h2>
+      <div class="demo-buttons">
+        <button onclick="demo.storeSet()">Store Data</button>
+        <button onclick="demo.storeGet()">Get Data</button>
+        <button onclick="demo.storeList()">List Keys</button>
+        <button onclick="demo.writeFile()">Write File</button>
+        <button onclick="demo.readFile()">Read File</button>
+      </div>
+      <div class="output" id="output-storage"></div>
+    </div>
+
+    <!-- Demo: AI & Agents -->
+    <div class="demo-section">
+      <h2>🤖 AI & Agent Operations</h2>
+      <div class="demo-buttons">
+        <button onclick="demo.micronaut()">Micronaut Inference</button>
+        <button onclick="demo.tribunal()">Multi-Judge Tribunal</button>
+        <button onclick="demo.listAgents()">List Agents</button>
+        <button onclick="demo.routeAI()">K'UHUL Routing</button>
+      </div>
+      <div class="output" id="output-ai"></div>
+    </div>
+
+    <!-- Demo: Compression -->
+    <div class="demo-section">
+      <h2>🗜️ SCXQ2 Compression</h2>
+      <div class="demo-buttons">
+        <button onclick="demo.compress()">Compress Data</button>
+        <button onclick="demo.decompress()">Decompress Data</button>
+      </div>
+      <div class="output" id="output-compression"></div>
+    </div>
+  </div>
+
+  <!-- Load Runtime -->
+  <script src="../micronaut/browser-fallback.js"></script>
+  <script src="../runtime/khl-unified.js"></script>
+
+  <script>
+    // Global KHL instance
+    let khl = null;
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', async () => {
+      console.log('[ASX] Initializing KHL Runtime...');
+
+      // Create KHL instance with debug enabled
+      khl = new KHL({ debug: true });
+      await khl.init();
+
+      // Update status display
+      updateStatus();
+
+      console.log('[ASX] KHL Runtime ready!');
+    });
+
+    // Update status display
+    function updateStatus() {
+      const status = khl.getStatus();
+
+      document.getElementById('runtime-mode').textContent = status.mode || 'unknown';
+      document.getElementById('backend-name').textContent = status.backend || 'none';
+      document.getElementById('tapes-count').textContent = status.tapes || 0;
+      document.getElementById('sessions-count').textContent = status.sessions || 0;
+    }
+
+    // Demo functions
+    const demo = {
+      async ping() {
+        const output = document.getElementById('output-basic');
+        output.innerHTML = '<div class="loader"></div> Pinging...';
+
+        try {
+          const result = await khl.call('ping', {});
+          output.innerHTML = `<pre class="success">${JSON.stringify(result, null, 2)}</pre>`;
+        } catch (err) {
+          output.innerHTML = `<pre class="error">Error: ${err.message}</pre>`;
+        }
+      },
+
+      async info() {
+        const output = document.getElementById('output-basic');
+        output.innerHTML = '<div class="loader"></div> Getting system info...';
+
+        try {
+          const result = await khl.info();
+          output.innerHTML = `<pre class="success">${JSON.stringify(result, null, 2)}</pre>`;
+        } catch (err) {
+          output.innerHTML = `<pre class="error">Error: ${err.message}</pre>`;
+        }
+      },
+
+      async discoverTapes() {
+        const output = document.getElementById('output-basic');
+        output.innerHTML = '<div class="loader"></div> Discovering tapes...';
+
+        try {
+          const tapes = await khl.discoverTapes();
+          updateStatus();
+          output.innerHTML = `<pre class="success">Found ${tapes.size} tapes:\n${JSON.stringify(Array.from(tapes.values()), null, 2)}</pre>`;
+        } catch (err) {
+          output.innerHTML = `<pre class="error">Error: ${err.message}</pre>`;
+        }
+      },
+
+      async getStatus() {
+        const output = document.getElementById('output-basic');
+        const status = khl.getStatus();
+        output.innerHTML = `<pre class="info">${JSON.stringify(status, null, 2)}</pre>`;
+      },
+
+      async storeSet() {
+        const output = document.getElementById('output-storage');
+        output.innerHTML = '<div class="loader"></div> Storing data...';
+
+        try {
+          const result = await khl.store('set', 'demo_key', { message: 'Hello ASX!', timestamp: Date.now() });
+          output.innerHTML = `<pre class="success">${JSON.stringify(result, null, 2)}</pre>`;
+        } catch (err) {
+          output.innerHTML = `<pre class="error">Error: ${err.message}</pre>`;
+        }
+      },
+
+      async storeGet() {
+        const output = document.getElementById('output-storage');
+        output.innerHTML = '<div class="loader"></div> Getting data...';
+
+        try {
+          const result = await khl.store('get', 'demo_key');
+          output.innerHTML = `<pre class="success">${JSON.stringify(result, null, 2)}</pre>`;
+        } catch (err) {
+          output.innerHTML = `<pre class="error">Error: ${err.message}</pre>`;
+        }
+      },
+
+      async storeList() {
+        const output = document.getElementById('output-storage');
+        output.innerHTML = '<div class="loader"></div> Listing keys...';
+
+        try {
+          const result = await khl.store('list');
+          output.innerHTML = `<pre class="success">${JSON.stringify(result, null, 2)}</pre>`;
+        } catch (err) {
+          output.innerHTML = `<pre class="error">Error: ${err.message}</pre>`;
+        }
+      },
+
+      async writeFile() {
+        const output = document.getElementById('output-storage');
+        output.innerHTML = '<div class="loader"></div> Writing file...';
+
+        try {
+          const result = await khl.writeFile('/demo/test.json', JSON.stringify({ hello: 'world', timestamp: Date.now() }, null, 2));
+          output.innerHTML = `<pre class="success">${JSON.stringify(result, null, 2)}</pre>`;
+        } catch (err) {
+          output.innerHTML = `<pre class="error">Error: ${err.message}</pre>`;
+        }
+      },
+
+      async readFile() {
+        const output = document.getElementById('output-storage');
+        output.innerHTML = '<div class="loader"></div> Reading file...';
+
+        try {
+          const result = await khl.readFile('/demo/test.json');
+          output.innerHTML = `<pre class="success">${JSON.stringify(result, null, 2)}</pre>`;
+        } catch (err) {
+          output.innerHTML = `<pre class="error">Error: ${err.message}</pre>`;
+        }
+      },
+
+      async micronaut() {
+        const output = document.getElementById('output-ai');
+        output.innerHTML = '<div class="loader"></div> Micronaut inference...';
+
+        try {
+          const result = await khl.infer('The function returns', { max_tokens: 50 });
+          output.innerHTML = `<pre class="success">${JSON.stringify(result, null, 2)}</pre>`;
+        } catch (err) {
+          output.innerHTML = `<pre class="error">Error: ${err.message}</pre>`;
+        }
+      },
+
+      async tribunal() {
+        const output = document.getElementById('output-ai');
+        output.innerHTML = '<div class="loader"></div> Starting tribunal evaluation...';
+
+        try {
+          const result = await khl.tribunal('Review this code for best practices', ['cline', 'rombos']);
+          output.innerHTML = `<pre class="success">${JSON.stringify(result, null, 2)}</pre>`;
+        } catch (err) {
+          output.innerHTML = `<pre class="error">Error: ${err.message}</pre>`;
+        }
+      },
+
+      async listAgents() {
+        const output = document.getElementById('output-ai');
+        output.innerHTML = '<div class="loader"></div> Listing agents...';
+
+        try {
+          const result = await khl.call('agents_list', {});
+          output.innerHTML = `<pre class="success">${JSON.stringify(result, null, 2)}</pre>`;
+        } catch (err) {
+          output.innerHTML = `<pre class="error">Error: ${err.message}</pre>`;
+        }
+      },
+
+      async routeAI() {
+        const output = document.getElementById('output-ai');
+        output.innerHTML = '<div class="loader"></div> Routing AI task via K\'UHUL...';
+
+        try {
+          const result = await khl.routeAI({ type: 'inference', prompt: 'test' }, { priority: 0.9, shard: 'llm_rombos_coder_qwen7b' });
+          output.innerHTML = `<pre class="success">${JSON.stringify(result, null, 2)}</pre>`;
+        } catch (err) {
+          output.innerHTML = `<pre class="error">Error: ${err.message}</pre>`;
+        }
+      },
+
+      async compress() {
+        const output = document.getElementById('output-compression');
+        output.innerHTML = '<div class="loader"></div> Compressing data...';
+
+        try {
+          const data = {
+            message: 'This is a test message for compression',
+            metadata: { timestamp: Date.now(), version: '1.0.0' },
+            items: [1, 2, 3, 4, 5]
+          };
+          const result = await khl.compress(data);
+          output.innerHTML = `<pre class="success">Original: ${JSON.stringify(data, null, 2)}\n\nResult:\n${JSON.stringify(result, null, 2)}</pre>`;
+        } catch (err) {
+          output.innerHTML = `<pre class="error">Error: ${err.message}</pre>`;
+        }
+      },
+
+      async decompress() {
+        const output = document.getElementById('output-compression');
+        output.innerHTML = '<div class="loader"></div> Decompressing data...';
+
+        try {
+          // First compress some data
+          const data = { hello: 'world', test: true };
+          const compressed = await khl.compress(data);
+
+          // Then decompress it
+          const result = await khl.decompress(compressed.compressed);
+          output.innerHTML = `<pre class="success">Decompressed:\n${JSON.stringify(result, null, 2)}</pre>`;
+        } catch (err) {
+          output.innerHTML = `<pre class="error">Error: ${err.message}</pre>`;
+        }
+      }
+    };
+  </script>
+</body>
+</html>
