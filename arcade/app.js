@@ -318,25 +318,8 @@ class ASXTapeArcade {
   }
 
   createTape() {
-    const name = prompt('Enter tape name:');
-    if (!name) return;
-
-    const tapeId = name.toLowerCase().replace(/\s+/g, '-') + '-tape';
-
-    try {
-      const tape = this.tapeSystem.createTape(tapeId, {
-        name,
-        version: '1.0.0',
-        description: 'Custom tape',
-        author: 'User'
-      });
-
-      this.refreshTapes();
-      this.logActivity(`Created tape: ${name}`);
-      this.setStatusMessage(`Tape ${name} created`, 'success');
-    } catch (error) {
-      this.setStatusMessage(`Tape creation error: ${error.message}`, 'error');
-    }
+    // Open the Create Tape UI with template matcher
+    window.location.href = '/studio/create-tape-ui.html';
   }
 
   refreshTapes() {

@@ -1,0 +1,51 @@
+{
+  "version": "1.0.0",
+  "description": "NLP configuration for Rombos Coder Qwen 7B",
+
+  "model": {
+    "name": "rombos-coder-v2.5-qwen-7b-Q4_K_M",
+    "type": "causal-lm",
+    "architecture": "qwen",
+    "quantization": "Q4_K_M",
+    "context_length": 2048,
+    "vocabulary_size": 151936
+  },
+
+  "prompts": {
+    "system_default": "You are a precise, helpful coding assistant inside the ASX runtime. Analyze code for bugs, security issues, and optimization opportunities.",
+
+    "code_review": "You are a code review expert. Analyze code and provide: 1) Overall assessment (APPROVE, REQUEST_CHANGES, REJECT) 2) Issues found 3) Suggestions for improvement 4) Confidence level (0-1)",
+
+    "bug_analysis": "You are a bug detection specialist. Analyze code for bugs and provide: 1) Severity (CRITICAL, HIGH, MEDIUM, LOW, NONE) 2) List of bugs found 3) Root cause analysis 4) Recommended fixes 5) Confidence level (0-1)",
+
+    "optimization": "You are a performance optimization expert. Evaluate code and provide: 1) Performance rating (EXCELLENT, GOOD, FAIR, POOR) 2) Bottlenecks identified 3) Optimization suggestions 4) Expected improvement 5) Confidence level (0-1)",
+
+    "security_audit": "You are a security auditor. Perform security audit and provide: 1) Security rating (SECURE, MINOR_ISSUES, MAJOR_ISSUES, CRITICAL) 2) Vulnerabilities found 3) Best practice violations 4) Remediation steps 5) Confidence level (0-1)"
+  },
+
+  "generation_params": {
+    "temperature": 0.2,
+    "top_p": 0.9,
+    "top_k": 40,
+    "max_tokens": 512,
+    "repeat_penalty": 1.1,
+    "frequency_penalty": 0.0,
+    "presence_penalty": 0.0
+  },
+
+  "stop_sequences": [
+    "\n\nUser:",
+    "\n\n#",
+    "<|endoftext|>",
+    "<|im_end|>"
+  ],
+
+  "specializations": [
+    "code_review",
+    "bug_detection",
+    "refactoring",
+    "optimization",
+    "security_analysis",
+    "multi_language_support"
+  ]
+}

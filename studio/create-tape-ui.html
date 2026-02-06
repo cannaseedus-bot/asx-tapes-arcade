@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create New Tape - ASX Studio</title>
+  <link rel="stylesheet" href="create-tape-ui.css">
+</head>
+<body>
+
+  <div class="create-tape-container">
+
+    <!-- Header -->
+    <header class="create-header">
+      <h1>⟁ CREATE NEW TAPE</h1>
+      <button id="close-btn" class="btn-close">✕</button>
+    </header>
+
+    <!-- Template Selection (Step 1) -->
+    <section id="template-selection" class="step active">
+      <h2>Choose a Template</h2>
+
+      <div class="template-search">
+        <input type="text" id="template-search-input" placeholder="Search templates...">
+      </div>
+
+      <div class="template-categories">
+        <button class="category-btn active" data-category="all">All</button>
+        <button class="category-btn" data-category="game">Games</button>
+        <button class="category-btn" data-category="ai">AI/ML</button>
+        <button class="category-btn" data-category="web">Web Apps</button>
+        <button class="category-btn" data-category="devops">DevOps</button>
+        <button class="category-btn" data-category="data">Data</button>
+        <button class="category-btn" data-category="agent">Agents</button>
+      </div>
+
+      <div class="template-grid" id="template-grid">
+        <!-- Templates populated by JS -->
+      </div>
+
+      <div class="step-actions">
+        <button id="next-to-config-btn" class="btn-primary" disabled>Next →</button>
+      </div>
+    </section>
+
+    <!-- Tape Configuration (Step 2) -->
+    <section id="tape-config" class="step">
+      <h2>Configure Your Tape</h2>
+
+      <div class="config-form">
+
+        <!-- Title -->
+        <div class="form-group">
+          <label for="tape-title">TITLE</label>
+          <input type="text" id="tape-title" placeholder="My Awesome Tape" required>
+        </div>
+
+        <!-- Author -->
+        <div class="form-group">
+          <label for="tape-author">AUTHOR</label>
+          <input type="text" id="tape-author" placeholder="Anonymous" value="Anonymous">
+        </div>
+
+        <!-- Type -->
+        <div class="form-group">
+          <label for="tape-type">TYPE</label>
+          <select id="tape-type">
+            <option value="gallery">Gallery</option>
+            <option value="app">App</option>
+            <option value="game">Game</option>
+            <option value="tool">Tool</option>
+            <option value="ai-studio">AI Studio</option>
+          </select>
+        </div>
+
+        <!-- Theme -->
+        <div class="form-group">
+          <label for="tape-theme">THEME</label>
+          <select id="tape-theme">
+            <option value="neon-green">Neon Green</option>
+            <option value="hellscape">Hellscape</option>
+            <option value="cyberpunk">Cyberpunk</option>
+            <option value="retro">Retro</option>
+            <option value="minimal">Minimal</option>
+          </select>
+        </div>
+
+        <!-- Tags -->
+        <div class="form-group full-width">
+          <label for="tape-tags">TAGS (COMMA-SEPARATED)</label>
+          <input type="text" id="tape-tags" placeholder="demo, gallery, cards">
+        </div>
+
+        <!-- Description -->
+        <div class="form-group full-width">
+          <label for="tape-description">DESCRIPTION</label>
+          <textarea id="tape-description" rows="3" placeholder="Describe your tape..."></textarea>
+        </div>
+
+        <!-- Enable Cline -->
+        <div class="form-group checkbox-group">
+          <input type="checkbox" id="enable-cline" checked>
+          <label for="enable-cline">Enable Cline AI Assistant</label>
+        </div>
+
+        <!-- Enable KUHUL Hive -->
+        <div class="form-group checkbox-group">
+          <input type="checkbox" id="enable-kuhul">
+          <label for="enable-kuhul">Enable KUHUL Multi-Agent Hive</label>
+        </div>
+
+      </div>
+
+      <div class="step-actions">
+        <button id="back-to-template-btn" class="btn-secondary">← Back</button>
+        <button id="next-to-structure-btn" class="btn-primary">Next →</button>
+      </div>
+    </section>
+
+    <!-- Tape Structure (Step 3) -->
+    <section id="tape-structure" class="step">
+      <h2>Customize Tape Structure</h2>
+
+      <div class="structure-editor">
+        <div class="structure-tree" id="structure-tree">
+          <!-- Structure tree populated by JS -->
+        </div>
+
+        <div class="structure-actions">
+          <button class="btn-tool" id="add-brain-btn">+ Add Brain</button>
+          <button class="btn-tool" id="add-agent-btn">+ Add Agent</button>
+          <button class="btn-tool" id="add-file-btn">+ Add File</button>
+        </div>
+      </div>
+
+      <div class="step-actions">
+        <button id="back-to-config-btn" class="btn-secondary">← Back</button>
+        <button id="create-tape-btn" class="btn-primary">Create Tape ⟁</button>
+      </div>
+    </section>
+
+    <!-- Creating Tape (Loading) -->
+    <section id="creating-tape" class="step">
+      <div class="loading-container">
+        <div class="spinner"></div>
+        <h2>Creating Tape...</h2>
+        <p id="creation-status">Initializing...</p>
+      </div>
+    </section>
+
+    <!-- Success -->
+    <section id="tape-created" class="step">
+      <div class="success-container">
+        <div class="success-icon">✓</div>
+        <h2>Tape Created Successfully!</h2>
+        <p id="tape-id-display"></p>
+
+        <div class="success-actions">
+          <button id="open-studio-btn" class="btn-primary">Open in Studio ⟁</button>
+          <button id="create-another-btn" class="btn-secondary">Create Another</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="template-matcher.js"></script>
+  <script src="create-tape-ui.js"></script>
+
+</body>
+</html>

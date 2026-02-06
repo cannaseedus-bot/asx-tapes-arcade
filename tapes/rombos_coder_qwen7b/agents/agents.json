@@ -1,0 +1,45 @@
+{
+  "version": "1.0.0",
+  "agents": [
+    {
+      "id": "mx2php",
+      "name": "Mx2PHP Router",
+      "role": "backend-router",
+      "type": "micro",
+      "skills": ["http", "fs", "logs", "routing"],
+      "entry": "route.php",
+      "priority": 10
+    },
+    {
+      "id": "rombos_coder_qwen7b",
+      "name": "Rombos Coder Qwen 7B",
+      "role": "code-model",
+      "type": "llm",
+      "adapter": "ollama",
+      "model": "rombos-coder-v2.5-qwen-7b-Q4_K_M",
+      "endpoint": "http://127.0.0.1:11434/api/generate",
+      "skills": [
+        "code_generation",
+        "code_review",
+        "bug_detection",
+        "refactoring",
+        "optimization",
+        "security_audit"
+      ],
+      "config": {
+        "temperature": 0.2,
+        "top_p": 0.9,
+        "max_tokens": 512,
+        "context_length": 2048
+      },
+      "priority": 9
+    }
+  ],
+
+  "swarm_integration": {
+    "enabled": true,
+    "tribunal_compatible": true,
+    "voting_weight": 1.3,
+    "specialization": "code-specialist"
+  }
+}

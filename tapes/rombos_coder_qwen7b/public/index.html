@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💻 Rombos Coder Qwen 7B</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>💻 ROMBOS CODER V2.5</h1>
+      <p class="subtitle">Qwen 7B Q4_K_M • Code Review & Analysis</p>
+      <div class="status-bar">
+        <span id="status" class="status">⬤ Connecting...</span>
+        <span class="model">rombos-coder-v2.5-qwen-7b-Q4_K_M</span>
+      </div>
+    </header>
+
+    <div class="main-grid">
+      <!-- Input Panel -->
+      <div class="panel input-panel">
+        <div class="panel-header">
+          <h2>Code Input</h2>
+          <select id="taskType" class="task-selector">
+            <option value="code_review">Code Review</option>
+            <option value="bug_analysis">Bug Analysis</option>
+            <option value="optimization">Optimization</option>
+            <option value="security_audit">Security Audit</option>
+            <option value="general">General Query</option>
+          </select>
+        </div>
+        <textarea
+          id="codeInput"
+          class="code-input"
+          placeholder="Paste your code here..."
+          spellcheck="false"></textarea>
+        <div class="input-actions">
+          <button onclick="analyzeCode()" class="btn btn-primary" id="analyzeBtn">
+            Analyze Code
+          </button>
+          <button onclick="clearInput()" class="btn btn-secondary">
+            Clear
+          </button>
+        </div>
+      </div>
+
+      <!-- Output Panel -->
+      <div class="panel output-panel">
+        <div class="panel-header">
+          <h2>Analysis Result</h2>
+          <div class="stats" id="stats"></div>
+        </div>
+        <div id="output" class="code-output"></div>
+      </div>
+
+      <!-- Logs Panel -->
+      <div class="panel logs-panel">
+        <div class="panel-header">
+          <h2>Activity Log</h2>
+          <button onclick="clearLogs()" class="btn btn-small">Clear</button>
+        </div>
+        <div id="logs" class="logs"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

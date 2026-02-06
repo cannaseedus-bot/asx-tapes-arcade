@@ -1,0 +1,111 @@
+{
+  "id": "cline",
+  "name": "Cline AI Coding Assistant",
+  "version": "1.0.0",
+  "type": "ai-agent",
+  "description": "AI-powered coding assistant integrated into ASX tape studios",
+
+  "capabilities": [
+    "code-generation",
+    "code-analysis",
+    "debugging",
+    "refactoring",
+    "testing",
+    "documentation",
+    "git-operations",
+    "file-operations",
+    "shell-commands",
+    "multi-step-tasks"
+  ],
+
+  "integration": {
+    "repo": "https://github.com/cannaseedus-bot/cline.git",
+    "type": "embedded",
+    "runtime": "node",
+    "api": {
+      "endpoint": "/api/cline",
+      "methods": ["chat", "execute", "analyze", "generate"]
+    }
+  },
+
+  "permissions": {
+    "filesystem": "read-write",
+    "network": "localhost",
+    "shell": true,
+    "git": true,
+    "dangerous_commands": false
+  },
+
+  "ui": {
+    "chat": true,
+    "code_editor": true,
+    "terminal": true,
+    "file_tree": true
+  },
+
+  "models": [
+    {
+      "id": "claude-sonnet-4.5",
+      "provider": "anthropic",
+      "context_window": 200000,
+      "capabilities": ["coding", "analysis", "planning"]
+    }
+  ],
+
+  "prompts": {
+    "system": "You are Cline, an AI coding assistant integrated into the ASX Tape Arcade studio system. You help users build, debug, and optimize their tape projects.",
+    "welcome": "Hi! I'm Cline, your AI coding assistant. I can help you build, debug, and optimize your tape project. What would you like to work on?",
+    "context": "You are working in an ASX tape studio with access to the tape's files, agents, brains, and database."
+  },
+
+  "tools": [
+    "read_file",
+    "write_file",
+    "edit_file",
+    "search_files",
+    "execute_command",
+    "git_operations",
+    "analyze_code",
+    "run_tests"
+  ],
+
+  "hive_integration": {
+    "enabled": true,
+    "kuhul_hive": "https://github.com/cannaseedus-bot/KUHUL.git",
+    "routes": {
+      "task_delegation": "/hive/task/delegate",
+      "status": "/hive/agent/cline/status",
+      "collaborate": "/hive/agent/collaborate"
+    }
+  },
+
+  "multi_judge": {
+    "enabled": true,
+    "version": "10.0.0",
+    "description": "Multi-judge tribunal system for consensus AI evaluation",
+    "tribunal": {
+      "judges": ["cline", "qwen", "mx2lm"],
+      "consensus_required": true,
+      "min_judges": 2,
+      "quorum_threshold": 0.66
+    },
+    "integration": {
+      "tribunal_ui": "/agents/multi-judge/tribunal-ui.html",
+      "tribunal_api": "/ghost/swarm/route",
+      "disagreement_tracker": true,
+      "auto_escalate": true
+    },
+    "use_cases": [
+      "code_review",
+      "bug_analysis",
+      "security_audit",
+      "optimization_review",
+      "architecture_decisions"
+    ],
+    "escalation": {
+      "on_disagreement": "log_and_flag",
+      "on_critical_split": "require_human",
+      "confidence_threshold": 0.6
+    }
+  }
+}

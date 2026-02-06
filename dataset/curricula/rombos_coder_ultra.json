@@ -1,0 +1,89 @@
+{
+  "id": "rombos_coder_ultra",
+  "description": "Specialized curriculum for rombos-coder-v2.5-qwen-7b on ASX GODMODE datasets",
+  "version": "1.0.0",
+
+  "target_model": "rombos/rombos-coder-v2.5-qwen-7b",
+  "base_model_type": "qwen",
+
+  "datasets": [
+    "dataset/xjson/train_xjson_seed.jsonl",
+    "dataset/xjson/train_xjson_auto.jsonl",
+    "dataset/kuhul/train_kuhul_auto.jsonl",
+    "dataset/scxq2/scxq2_pairs.jsonl",
+    "dataset/xcfe/xcfe_decisions.jsonl",
+    "dataset/hive/hive_routes.jsonl"
+  ],
+
+  "hyperparams": {
+    "lr": 2e-4,
+    "max_steps": 1200,
+    "batch_size": 1,
+    "grad_accum": 8,
+    "lora_r": 64,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "eval_ratio": 0.05,
+    "max_seq_len": 2048
+  },
+
+  "training_phases": [
+    {
+      "phase": 1,
+      "description": "Warmup - General code understanding",
+      "steps": 200,
+      "datasets": [
+        "dataset/xjson/train_xjson_seed.jsonl"
+      ],
+      "lr": 1e-4
+    },
+    {
+      "phase": 2,
+      "description": "Core - ASX patterns and KUHUL routing",
+      "steps": 500,
+      "datasets": [
+        "dataset/xjson/train_xjson_auto.jsonl",
+        "dataset/kuhul/train_kuhul_auto.jsonl"
+      ],
+      "lr": 2e-4
+    },
+    {
+      "phase": 3,
+      "description": "Advanced - SCXQ2, XCFE, Hive integration",
+      "steps": 500,
+      "datasets": [
+        "dataset/scxq2/scxq2_pairs.jsonl",
+        "dataset/xcfe/xcfe_decisions.jsonl",
+        "dataset/hive/hive_routes.jsonl"
+      ],
+      "lr": 1.5e-4
+    }
+  ],
+
+  "evaluation": {
+    "eval_every_steps": 100,
+    "eval_datasets": [
+      "dataset/xjson/val_xjson.jsonl",
+      "dataset/kuhul/val_kuhul.jsonl"
+    ],
+    "metrics": [
+      "perplexity",
+      "exact_match",
+      "code_correctness"
+    ]
+  },
+
+  "output": {
+    "base_dir": "python/local_out_rombos_ultra_qlora",
+    "checkpoints": true,
+    "save_merged": true,
+    "export_gguf": true,
+    "gguf_quantizations": ["Q4_K_M", "Q8_0"]
+  },
+
+  "notes": [
+    "This curriculum is optimized for Rombos Coder Qwen 7B",
+    "Focuses on ASX-specific patterns, KUHUL routing, and multi-agent coordination",
+    "Output LoRA can be merged and re-exported to GGUF for deployment"
+  ]
+}

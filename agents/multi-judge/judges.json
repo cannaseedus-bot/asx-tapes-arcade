@@ -1,0 +1,252 @@
+{
+  "version": "10.0.0",
+  "tribunal": {
+    "name": "Cline v10 Multi-Judge Tribunal",
+    "description": "Consensus evaluation system with multiple AI judges",
+    "minJudges": 2,
+    "quorumThreshold": 0.66
+  },
+
+  "judges": {
+    "cline": {
+      "name": "Cline (Claude Sonnet 4.5)",
+      "type": "external",
+      "endpoint": "http://127.0.0.1:9999/run",
+      "model": "claude-sonnet-4.5",
+      "contextWindow": 200000,
+      "priority": 10,
+      "default": true,
+      "lightweight": true,
+
+      "skills": [
+        "code_generation",
+        "code_review",
+        "debugging",
+        "refactoring",
+        "architecture",
+        "testing",
+        "documentation",
+        "git_operations"
+      ],
+
+      "strengths": [
+        "Deep code understanding",
+        "Security awareness",
+        "Best practices",
+        "Comprehensive analysis"
+      ],
+
+      "votingWeight": 1.5,
+      "specialization": "general-purpose",
+      "timeoutMs": 30000
+    },
+
+    "janus": {
+      "name": "Janus/DeepSeek",
+      "type": "external",
+      "endpoint": "http://127.0.0.1:11434/api/chat",
+      "model": "janus",
+      "contextWindow": 32768,
+      "priority": 8,
+      "default": true,
+      "lightweight": true,
+
+      "skills": [
+        "code_eval",
+        "fast_inference",
+        "pattern_matching",
+        "syntax_check",
+        "quick_review"
+      ],
+
+      "strengths": [
+        "Very fast evaluation",
+        "Pattern recognition",
+        "Syntax analysis",
+        "Lightweight"
+      ],
+
+      "votingWeight": 1.0,
+      "specialization": "fast-eval",
+      "timeoutMs": 8000,
+      "size": "~2GB",
+      "installNote": "Run: ollama pull janus"
+    },
+
+    "micronauts": {
+      "name": "Micronauts",
+      "type": "external",
+      "endpoint": "http://127.0.0.1:11434/api/chat",
+      "model": "micronauts",
+      "contextWindow": 16384,
+      "priority": 7,
+      "default": true,
+      "lightweight": true,
+
+      "skills": [
+        "code_review",
+        "bug_detection",
+        "quick_analysis",
+        "edge_case_detection"
+      ],
+
+      "strengths": [
+        "Ultra-lightweight",
+        "Fast inference",
+        "Good bug detection",
+        "Low resource usage"
+      ],
+
+      "votingWeight": 0.9,
+      "specialization": "quick-analysis",
+      "timeoutMs": 8000,
+      "size": "~1-2GB",
+      "installNote": "Run: ollama pull micronauts"
+    }
+  },
+
+  "optional_judges": {
+    "note": "Install these for enhanced evaluation (see optional-models.json)",
+
+    "qwen-coder": {
+      "name": "Qwen Coder (Rombos v2.5)",
+      "type": "external",
+      "endpoint": "http://127.0.0.1:11434/api/chat",
+      "model": "rombos-coder-qwen",
+      "contextWindow": 32768,
+      "priority": 9,
+      "default": false,
+      "lightweight": false,
+
+      "skills": [
+        "code_generation",
+        "code_review",
+        "refactoring",
+        "bug_detection",
+        "optimization"
+      ],
+
+      "strengths": [
+        "Specialized coding model",
+        "Deep code understanding",
+        "Multi-language support",
+        "Excellent code quality analysis"
+      ],
+
+      "votingWeight": 1.3,
+      "specialization": "code-specialist",
+      "timeoutMs": 15000,
+      "size": "~4GB (Q4) or ~7GB (Q8)",
+      "downloadUrl": "https://huggingface.co/benhaotang/Rombos-Coder-V2.5-Qwen-7b-GGUF_cline",
+      "installNote": "See optional-models.json for installation guide"
+    },
+
+    "mx2lm": {
+      "name": "MX2LM",
+      "type": "external",
+      "endpoint": "http://127.0.0.1:9988/infer",
+      "model": "mx2lm-large",
+      "contextWindow": 65536,
+      "priority": 9,
+      "default": false,
+      "lightweight": false,
+
+      "skills": [
+        "reasoning",
+        "logic_analysis",
+        "complexity_analysis",
+        "algorithm_review",
+        "performance_analysis"
+      ],
+
+      "strengths": [
+        "Deep reasoning",
+        "Logical analysis",
+        "Algorithm optimization",
+        "Performance insights"
+      ],
+
+      "votingWeight": 1.2,
+      "specialization": "reasoning",
+      "timeoutMs": 20000,
+      "size": "~8-16GB",
+      "installNote": "See optional-models.json for installation guide"
+    }
+  },
+
+  "consensusRules": {
+    "unanimousRequired": false,
+    "majorityThreshold": 0.51,
+    "confidenceWeighting": true,
+    "expertiseWeighting": true,
+
+    "verdictPriority": {
+      "CRITICAL": 1,
+      "REJECT": 2,
+      "REQUEST_CHANGES": 3,
+      "HIGH": 4,
+      "MEDIUM": 5,
+      "APPROVE": 6,
+      "LOW": 7,
+      "GOOD": 8,
+      "EXCELLENT": 9
+    },
+
+    "tieBreaker": "highest-confidence",
+    "minConfidence": 0.3
+  },
+
+  "disagreementHandling": {
+    "logAll": true,
+    "requireReview": true,
+    "escalationThreshold": 0.4,
+    "humanReviewOnCritical": true,
+
+    "actions": {
+      "low_agreement": "flag_for_review",
+      "critical_split": "require_human",
+      "confidence_mismatch": "log_and_proceed"
+    }
+  },
+
+  "taskTypes": {
+    "code_review": {
+      "requiredJudges": ["cline", "qwen"],
+      "optionalJudges": ["mx2lm"],
+      "verdicts": ["APPROVE", "REQUEST_CHANGES", "REJECT"]
+    },
+
+    "bug_analysis": {
+      "requiredJudges": ["cline"],
+      "optionalJudges": ["qwen", "mx2lm"],
+      "verdicts": ["CRITICAL", "HIGH", "MEDIUM", "LOW", "NONE"]
+    },
+
+    "optimization": {
+      "requiredJudges": ["mx2lm", "cline"],
+      "optionalJudges": ["qwen"],
+      "verdicts": ["EXCELLENT", "GOOD", "FAIR", "POOR"]
+    },
+
+    "security_audit": {
+      "requiredJudges": ["cline", "mx2lm"],
+      "optionalJudges": ["qwen"],
+      "verdicts": ["SECURE", "MINOR_ISSUES", "MAJOR_ISSUES", "CRITICAL"]
+    }
+  },
+
+  "logging": {
+    "enabled": true,
+    "logPath": "/agents/multi-judge/logs/",
+    "retentionDays": 30,
+    "logLevel": "info",
+
+    "logEvents": [
+      "session_start",
+      "vote_cast",
+      "consensus_reached",
+      "disagreement_detected",
+      "session_complete"
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "version": "1.0.0",
+  "tape_id": "rombos_coder_qwen7b",
+  "created": "2025-01-19T00:00:00Z",
+
+  "sessions": [],
+
+  "stats": {
+    "total_inferences": 0,
+    "total_tokens": 0,
+    "avg_latency_ms": 0,
+    "errors": 0
+  },
+
+  "cache": {},
+
+  "config": {
+    "enable_logging": true,
+    "max_sessions": 1000,
+    "cache_ttl_seconds": 3600
+  }
+}

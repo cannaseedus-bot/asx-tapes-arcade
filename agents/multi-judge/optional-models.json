@@ -1,0 +1,222 @@
+{
+  "version": "1.0.0",
+  "description": "Optional heavier models for enhanced tribunal evaluation",
+
+  "default_judges": {
+    "lightweight": true,
+    "judges": ["cline", "janus", "micronauts"],
+    "description": "Lightweight judges that run fast on most hardware",
+    "total_size": "~2-4GB RAM",
+    "inference_speed": "fast"
+  },
+
+  "optional_judges": {
+    "qwen-coder": {
+      "name": "Qwen Coder (Rombos v2.5)",
+      "type": "optional",
+      "size_variants": [
+        {
+          "name": "Q4_K_M (Recommended)",
+          "quantization": "Q4_K_M",
+          "size": "~4GB",
+          "speed": "fast",
+          "quality": "good",
+          "url": "https://huggingface.co/benhaotang/Rombos-Coder-V2.5-Qwen-7b-GGUF_cline?show_file_info=rombos-coder-v2.5-qwen-7b-Q4_K_M.gguf",
+          "filename": "rombos-coder-v2.5-qwen-7b-Q4_K_M.gguf",
+          "recommended": true
+        },
+        {
+          "name": "Q8_0 (High Quality)",
+          "quantization": "Q8_0",
+          "size": "~7GB",
+          "speed": "slower",
+          "quality": "excellent",
+          "url": "https://huggingface.co/benhaotang/Rombos-Coder-V2.5-Qwen-7b-GGUF_cline?show_file_info=rombos-coder-v2.5-qwen-7b-q8_0.gguf",
+          "filename": "rombos-coder-v2.5-qwen-7b-q8_0.gguf",
+          "recommended": false
+        }
+      ],
+      "skills": [
+        "code_generation",
+        "code_review",
+        "refactoring",
+        "bug_detection",
+        "optimization"
+      ],
+      "strengths": [
+        "Specialized coding model",
+        "Deep code understanding",
+        "Multi-language support",
+        "Fast inference with Q4 quantization"
+      ],
+      "endpoint_after_install": "http://127.0.0.1:11434/api/chat",
+      "ollama_model_name": "rombos-coder-qwen"
+    },
+
+    "mx2lm": {
+      "name": "MX2LM",
+      "type": "optional",
+      "size": "~8-16GB",
+      "description": "Deep reasoning and logic analysis model",
+      "download_url": "https://github.com/ml-explore/mlx-examples",
+      "installation": "See MX2LM installation guide",
+      "endpoint_after_install": "http://127.0.0.1:9988/infer",
+      "skills": [
+        "reasoning",
+        "logic_analysis",
+        "algorithm_review",
+        "complexity_analysis"
+      ]
+    }
+  },
+
+  "installation_guides": {
+    "qwen-coder": {
+      "method": "ollama",
+      "steps": [
+        {
+          "step": 1,
+          "command": "curl -fsSL https://ollama.com/install.sh | sh",
+          "description": "Install Ollama (if not already installed)"
+        },
+        {
+          "step": 2,
+          "command": "wget https://huggingface.co/benhaotang/Rombos-Coder-V2.5-Qwen-7b-GGUF_cline/resolve/main/rombos-coder-v2.5-qwen-7b-Q4_K_M.gguf",
+          "description": "Download the Q4_K_M model (recommended)"
+        },
+        {
+          "step": 3,
+          "action": "Create Modelfile",
+          "content": "FROM ./rombos-coder-v2.5-qwen-7b-Q4_K_M.gguf\nPARAMETER temperature 0.7\nPARAMETER top_p 0.9\nSYSTEM You are a code review expert. Analyze code for bugs, security issues, and optimization opportunities.",
+          "save_to": "Modelfile"
+        },
+        {
+          "step": 4,
+          "command": "ollama create rombos-coder-qwen -f Modelfile",
+          "description": "Create Ollama model from GGUF file"
+        },
+        {
+          "step": 5,
+          "command": "ollama run rombos-coder-qwen",
+          "description": "Test the model (optional)"
+        },
+        {
+          "step": 6,
+          "action": "Update judges.json",
+          "description": "Add qwen-coder endpoint to tribunal configuration"
+        }
+      ],
+      "verification": {
+        "command": "curl http://localhost:11434/api/tags",
+        "expected": "Should list 'rombos-coder-qwen' in models"
+      }
+    },
+
+    "mx2lm": {
+      "method": "manual",
+      "requirements": [
+        "Python 3.9+",
+        "8GB+ RAM",
+        "GPU recommended (not required)"
+      ],
+      "steps": [
+        {
+          "step": 1,
+          "command": "git clone https://github.com/ml-explore/mlx-examples",
+          "description": "Clone MLX examples repository"
+        },
+        {
+          "step": 2,
+          "command": "pip install -r requirements.txt",
+          "description": "Install dependencies"
+        },
+        {
+          "step": 3,
+          "command": "python server.py --port 9988",
+          "description": "Start MX2LM inference server"
+        },
+        {
+          "step": 4,
+          "action": "Update judges.json",
+          "description": "Add mx2lm endpoint to tribunal configuration"
+        }
+      ]
+    }
+  },
+
+  "configuration": {
+    "enable_optional_judges": {
+      "file": "/agents/multi-judge/judges.json",
+      "add_judge_template": {
+        "qwen-coder": {
+          "name": "Qwen Coder (Rombos)",
+          "type": "external",
+          "endpoint": "http://127.0.0.1:11434/api/chat",
+          "model": "rombos-coder-qwen",
+          "priority": 8,
+          "skills": ["code_review", "bug_detection", "optimization"],
+          "votingWeight": 1.0,
+          "timeoutMs": 15000
+        }
+      }
+    }
+  },
+
+  "recommendations": {
+    "minimal_setup": {
+      "judges": ["cline", "janus", "micronauts"],
+      "total_size": "~2-4GB",
+      "description": "Lightweight, fast, good for most use cases"
+    },
+
+    "balanced_setup": {
+      "judges": ["cline", "janus", "qwen-coder-Q4"],
+      "total_size": "~6-8GB",
+      "description": "Good balance of speed and quality"
+    },
+
+    "high_quality_setup": {
+      "judges": ["cline", "qwen-coder-Q8", "mx2lm"],
+      "total_size": "~15-25GB",
+      "description": "Maximum quality, slower inference"
+    }
+  },
+
+  "judge_comparison": {
+    "headers": ["Judge", "Size", "Speed", "Quality", "Specialization"],
+    "data": [
+      ["Cline", "Varies", "Fast", "Excellent", "General coding"],
+      ["Janus/DeepSeek", "~2GB", "Very Fast", "Good", "Quick eval"],
+      ["Micronauts", "~1-2GB", "Very Fast", "Good", "Lightweight"],
+      ["Qwen Q4_K_M", "~4GB", "Fast", "Very Good", "Code specialist"],
+      ["Qwen Q8_0", "~7GB", "Medium", "Excellent", "Code specialist"],
+      ["MX2LM", "~10GB", "Medium", "Excellent", "Deep reasoning"]
+    ]
+  },
+
+  "performance_tips": {
+    "for_low_end_hardware": {
+      "ram": "< 8GB",
+      "recommendation": "Use lightweight judges only (Cline + Janus + Micronauts)",
+      "note": "Fast inference, good quality for most tasks"
+    },
+
+    "for_mid_range_hardware": {
+      "ram": "8-16GB",
+      "recommendation": "Add Qwen Q4_K_M for specialized code review",
+      "note": "Best balance of speed and quality"
+    },
+
+    "for_high_end_hardware": {
+      "ram": "16GB+",
+      "recommendation": "Use all judges including Q8_0 and MX2LM",
+      "note": "Maximum consensus quality"
+    },
+
+    "gpu_acceleration": {
+      "supported_models": ["Qwen (via Ollama)", "MX2LM"],
+      "speedup": "2-5x faster inference",
+      "setup": "Ollama automatically detects and uses GPU if available"
+    }
+  }
+}
